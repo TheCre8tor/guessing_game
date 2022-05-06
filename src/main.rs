@@ -16,32 +16,28 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1..=10);
 
-    println!("The secret number is: {}", secret_number);
-
-    println!("Please input your guess.");
-
-    /* The :: syntax in the ::new line indicates that
-    new is an associated function of the String type */
-    let mut guess = String::new();
-
-    /* read_line takes whatever the user types into
-    standard input and append that into a string.
-
-    The & indicates that this argument is a reference,
-    which gives you a way to let multiple parts of your
-    code access one piece of data without needing to
-    copy that data into memory multiple times.
-
-    references are immutable by default. Hence, you
-    need to write &mut guess rather than &guess to make
-    it mutable.*/
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
-
-    // --snip--
-
     loop {
+        println!("Please input your guess.");
+
+        /* The :: syntax in the ::new line indicates that
+        new is an associated function of the String type */
+        let mut guess = String::new();
+
+        /* read_line takes whatever the user types into
+        standard input and append that into a string.
+
+        The & indicates that this argument is a reference,
+        which gives you a way to let multiple parts of your
+        code access one piece of data without needing to
+        copy that data into memory multiple times.
+
+        references are immutable by default. Hence, you
+        need to write &mut guess rather than &guess to make
+        it mutable.*/
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
         /* helpfully Rust allows us to shadow the previous
         value of guess with a new one.
 
@@ -58,7 +54,10 @@ fn main() {
         // let guess: u32 = guess.trim().parse().expect("Please type a number!");
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => {
+                println!("🤠 We expect number only!");
+                continue;
+            },
         };
 
         println!("You guessed: {}", guess);
@@ -71,7 +70,7 @@ fn main() {
             Ordering::Less => println!("Too small"),
             Ordering::Greater => println!("Too big!"),
             Ordering::Equal => {
-                println!("You won!");
+                println!("🥳 You won!");
                 break;
             }
         }
